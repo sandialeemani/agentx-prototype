@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AgentX Review Console</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef1f5;--sf:#fff;--tx:#142033;--mu:#586579;--bd:#d6dce5;--ac:#0b7a75;--act:#fff;--hi:#b3261e;--hib:#fde9e7;--me:#8a5a00;--meb:#fff0d1;--lo:#17653f;--lob:#dcf3e6;--fin:#4b3a8f;--finb:#ebe6fb;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1521;--sf:#162131;--tx:#e6ebf2;--mu:#98a5b8;--bd:#2a384d;--ac:#4fd1c5;--act:#06201e;--hi:#ff9a90;--hib:#4a1b18;--me:#f1c26a;--meb:#46330f;--lo:#7ed8a2;--lob:#12402a;--fin:#c3b5ff;--finb:#2e2559;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1521;--sf:#162131;--tx:#e6ebf2;--mu:#98a5b8;--bd:#2a384d;--ac:#4fd1c5;--act:#06201e;--hi:#ff9a90;--hib:#4a1b18;--me:#f1c26a;--meb:#46330f;--lo:#7ed8a2;--lob:#12402a;--fin:#c3b5ff;--finb:#2e2559;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--tx);font:15px/1.55 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:flex;min-height:100vh}
+nav{width:236px;background:#0b1a2b;color:#dbe5f0;padding:20px 14px;flex:none;display:flex;flex-direction:column;gap:6px}
+.logo{display:flex;gap:10px;align-items:center;margin:0 6px 18px}.logo i{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#4fd1c5,#2a6df4);display:grid;place-items:center;color:#06201e;font:800 18px Manrope}
+.logo b{font-size:19px;font-weight:800;display:block;line-height:1.1}.logo small{color:#8fa3ba;font-size:12px}
+nav .nb{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;background:none;border:0;color:inherit;padding:10px 12px;border-radius:9px;font:inherit;font-weight:500;cursor:pointer}
+nav .nb:hover{background:#142a43}nav .nb[aria-current=page]{background:#4fd1c5;color:#06201e;font-weight:700}
+.pill{background:#b3261e;color:#fff;border-radius:99px;font-size:12px;font-weight:700;padding:0 8px}
+.side{margin-top:auto;border-top:1px solid #1d3550;padding-top:14px;display:grid;gap:10px;font-size:12px;color:#8fa3ba}
+.side{grid-template-columns:minmax(0,1fr);min-width:0}.side label{display:grid;grid-template-columns:minmax(0,1fr);gap:4px;min-width:0}.side select{width:100%;max-width:100%;min-width:0;text-overflow:ellipsis;background:#142a43;color:#dbe5f0;border-color:#27425f}.side .nb{width:100%}
+.pv{font-family:"JetBrains Mono",ui-monospace,monospace;color:#4fd1c5}
+button:focus-visible,tr:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+main{flex:1;min-width:0;max-width:1120px;padding:28px 32px}
+h2{margin:0 0 4px;font-size:26px;font-weight:800;letter-spacing:-.01em}h3{font-size:16px;margin:24px 0 10px;font-weight:700}.sub{color:var(--mu);margin:0 0 18px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.alert{background:var(--hib);color:var(--hi);border:1px solid var(--hi);border-left-width:6px;border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;border-top:4px solid var(--bd)}
+.card b{display:block;font-size:30px;line-height:1.1;font-weight:800}.card span{color:var(--mu);font-size:13px}
+.card.p{border-top-color:var(--me)}.card.h{border-top-color:var(--hi)}.card.r{border-top-color:var(--lo)}.card.k{border-top-color:var(--mu)}.card.f{border-top-color:var(--fin)}.card.t{border-top-color:var(--ac)}
+.panel{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px}
+.stack{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--bd);margin:10px 0 8px}.stack i{display:block}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mu)}
+.b{display:inline-block;padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700;border:1px solid currentColor;white-space:nowrap}
+.High{color:var(--hi);background:var(--hib)}.Medium{color:var(--me);background:var(--meb)}.Low{color:var(--lo);background:var(--lob)}
+.Pending{color:var(--me);background:var(--meb)}.Released{color:var(--lo);background:var(--lob)}.Kept{color:var(--mu)}.Final{color:var(--fin);background:var(--finb)}.NA{color:var(--mu)}
+.btn{font:inherit;border:1px solid var(--ac);background:var(--ac);color:var(--act);padding:9px 18px;border-radius:9px;cursor:pointer;font-weight:700}
+.btn.sec{background:none;color:var(--ac)}.btn.link{background:none;border:0;color:inherit;text-decoration:underline;padding:0;font-weight:600}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+input,select,textarea{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--bd);border-radius:9px;padding:8px 11px}
+.tw{overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:620px}th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--bd);white-space:nowrap}th{font-size:12px;color:var(--mu);font-weight:700}
+tbody tr:last-child td{border-bottom:0}tbody tr[data-open]{cursor:pointer}tbody tr[data-open]:hover{background:var(--bg)}
+.mono,td.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.tri div{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:14px}.tri small{color:var(--mu);display:block;margin-bottom:6px}.tri b{font-size:20px}
+.flow{display:flex;gap:0;flex-wrap:wrap;margin:0 0 16px;padding:0;list-style:none}
+.flow li{flex:1 1 120px;position:relative;padding:10px 12px;border:1px solid var(--bd);background:var(--sf);margin:0 -1px -1px 0;font-size:13px}
+.flow li:first-child{border-radius:10px 0 0 10px}.flow li:last-child{border-radius:0 10px 10px 0}
+.flow small{display:block;color:var(--mu)}.flow b{display:block;overflow-wrap:anywhere}.flow .w{background:var(--hib);color:var(--hi)}.flow .w small{color:inherit}.flow .o{background:var(--meb);color:var(--me)}.flow .o small{color:inherit}
+dl{display:grid;grid-template-columns:170px 1fr;gap:9px 16px;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:0 0 16px}
+dt{color:var(--mu)}dd{margin:0;overflow-wrap:anywhere}
+.ov{position:fixed;inset:0;background:rgba(5,12,22,.6);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}
+.dlg{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:22px;max-width:460px;width:100%}
+.dlg textarea{width:100%;height:84px;margin-top:6px}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}h2:focus{outline:none}.err{color:var(--hi);font-size:13px;min-height:20px}
+.state{background:var(--sf);border:1px dashed var(--bd);border-radius:12px;padding:28px;text-align:center;color:var(--mu)}
+#toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:11px 20px;border-radius:10px;z-index:30;font-weight:600}
+#toast.bad{background:var(--hi);color:#fff}.mu{color:var(--mu)}
+@media(max-width:760px){.app{flex-direction:column}nav{width:100%;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px}.logo{margin:0 8px 0 0}.side{margin:0;border:0;padding:0;width:100%;grid-template-columns:1fr 1fr}nav .nb{width:auto}dl,.tri{grid-template-columns:1fr}main{padding:18px 14px}.flow li{flex-basis:45%;border-radius:0!important}}
+</style><style>
+:root[data-theme="dark"]{--bg:#060d18;--sf:rgba(20,32,50,.66);--bd:rgba(130,170,220,.18);--in:#09121f;--glow:rgba(79,209,197,.28)}
+:root[data-theme="light"]{--bg:#e8eff8;--sf:rgba(255,255,255,.8);--bd:rgba(20,32,51,.12);--in:#f4f8fd;--glow:rgba(11,122,117,.2)}
+body{background:radial-gradient(900px 520px at 88% -8%,rgba(79,209,197,.2),transparent 70%),radial-gradient(760px 560px at -6% 28%,rgba(42,109,244,.2),transparent 70%),radial-gradient(600px 400px at 60% 110%,rgba(150,90,240,.14),transparent 70%),var(--bg) fixed}
+nav{background:linear-gradient(180deg,#0c2038,#081424 70%);box-shadow:inset -1px 0 0 rgba(120,170,230,.14)}
+.logo i{box-shadow:0 0 24px rgba(79,209,197,.55);font-size:20px}
+nav .nb[aria-current=page]{background:linear-gradient(90deg,#4fd1c5,#6aa6ff);box-shadow:0 6px 22px rgba(79,209,197,.35)}
+h2{background:linear-gradient(90deg,var(--tx),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:30px}
+main.anim>*{animation:up .5s cubic-bezier(.2,.7,.2,1) both}main.anim>*:nth-child(2){animation-delay:.06s}main.anim>*:nth-child(3){animation-delay:.12s}main.anim>*:nth-child(4){animation-delay:.18s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero{display:flex;gap:28px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:26px 30px;margin-bottom:20px;border-radius:20px;border:1px solid var(--bd);background:linear-gradient(135deg,rgba(79,209,197,.16),rgba(42,109,244,.12) 55%,rgba(150,90,240,.12)),var(--sf);box-shadow:0 20px 60px -20px var(--glow);backdrop-filter:blur(14px)}
+.hero h2{font-size:32px;max-width:520px;line-height:1.15;margin-bottom:8px}.hero .sub{max-width:520px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 13px;border-radius:99px;border:1px solid var(--bd);background:var(--sf);font-size:13px;font-weight:600}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--lo);box-shadow:0 0 0 0 var(--lo);animation:pulse 2s infinite}@keyframes pulse{70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.ring{width:170px;height:170px;border-radius:50%;display:grid;place-content:center;text-align:center;position:relative;flex:none;box-shadow:0 0 50px var(--glow);animation:spin .9s ease-out both}
+@keyframes spin{from{transform:rotate(-90deg) scale(.85);opacity:0}to{transform:none;opacity:1}}
+.ring::after{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--in)}.ring b,.ring span{position:relative;z-index:1}.ring b{font-size:44px;line-height:1;font-weight:800}.ring span{color:var(--mu);font-size:13px}
+.card,.panel,.tw,.tri div,dl{background:var(--sf);backdrop-filter:blur(12px);border-color:var(--bd);box-shadow:0 10px 30px -18px rgba(0,0,0,.5)}
+.card{position:relative;overflow:hidden;border-top-width:0;padding-top:18px;transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 18px 36px -16px var(--glow)}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--bd)}.card.p::before{background:var(--me)}.card.h::before{background:var(--hi)}.card.r::before{background:var(--lo)}.card.k::before{background:var(--mu)}.card.f::before{background:var(--fin)}.card.t::before{background:linear-gradient(90deg,#4fd1c5,#6aa6ff)}
+.card::after{position:absolute;right:14px;top:16px;font-size:22px;opacity:.55}.card.p::after{content:"\23F3"}.card.h::after{content:"\26A0\FE0F"}.card.r::after{content:"\2705"}.card.k::after{content:"\26D4"}.card.f::after{content:"\1F512"}.card.t::after{content:"\03A3";font-weight:800}
+.card b{font-size:36px;font-weight:800}
+.alert{background:linear-gradient(90deg,var(--hib),transparent);border-radius:14px}.alert::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--hi);animation:pulse 1.6s infinite;box-shadow:0 0 0 0 var(--hi)}.alert>span{margin-right:auto}
+.b{box-shadow:0 0 14px -4px currentColor}
+.btn{background:linear-gradient(135deg,#4fd1c5,#4b86ff);border:0;color:#04141f;box-shadow:0 8px 22px -8px rgba(79,209,197,.7);transition:transform .15s,box-shadow .15s}.btn:hover{transform:translateY(-2px)}
+.btn.sec{background:var(--sf);color:var(--ac);border:1px solid var(--ac);box-shadow:none}.btn.link{background:none;box-shadow:none;border:0;color:inherit}.btn.link:hover{transform:none}
+thead th{background:rgba(120,170,230,.08)}tbody tr[data-open]{transition:background .15s,box-shadow .15s}tbody tr[data-open]:hover{background:rgba(79,209,197,.1);box-shadow:inset 4px 0 0 var(--ac)}
+.tri div{padding:18px}.tri b{font-size:24px}.tri div:first-child b{color:var(--hi);text-shadow:0 0 22px var(--hi)}
+.flow{gap:10px;position:relative}.flow li,.flow li:first-child,.flow li:last-child{border-radius:14px;margin:0;border-top:3px solid var(--ac);background:var(--sf);backdrop-filter:blur(10px)}
+.flow li::before{content:"";position:absolute;top:-9px;left:12px;width:14px;height:14px;border-radius:50%;background:var(--ac);box-shadow:0 0 14px var(--ac)}
+.flow li.w{border-top-color:var(--hi);background:var(--hib)}.flow li.w::before{background:var(--hi);box-shadow:0 0 14px var(--hi)}.flow li.o{border-top-color:var(--me);background:var(--meb)}.flow li.o::before{background:var(--me);box-shadow:0 0 14px var(--me)}.flow{padding-top:8px}
+.ov{backdrop-filter:blur(8px)}.dlg{background:var(--in);animation:pop .22s cubic-bezier(.2,.8,.3,1.2);box-shadow:0 30px 80px -20px #000}@keyframes pop{from{opacity:0;transform:scale(.92)}}
+#toast{animation:up .3s both;box-shadow:0 14px 40px -10px rgba(0,0,0,.6)}
+.state{background:var(--sf);border-radius:18px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+<div class="app"><nav aria-label="Main"><div class="logo"><i>A</i><div><b>AgentX</b><small>Review console</small></div></div><div id="nv" style="display:grid;gap:4px"></div>
+<div class="side"><label>Viewing as<select id="who" aria-label="Viewing as"><option value="rev">Reviewer (authorised)</option><option value="adm">Administrator (not in authorised_reviewers)</option></select></label>
+<label>Prototype state<select id="demo" aria-label="Prototype state"><option value="n">Normal data</option><option value="e">Empty queue</option><option value="x">Store error</option></select></label>
+<span>Active policy <span class="pv">v1.0</span></span><button class="nb" id="th" type="button" style="justify-content:center;border:1px solid #27425f">Switch theme</button></div></nav><main id="m"></main></div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+const Q=[
+{id:"C-1001",tool:"read_file",args:"restricted/staff_records.xlsx",rule:"R-02",risk:"High",st:"Pending",t:"2026-11-09 10:12",flag:"INJ-02: instruction to ignore previous instructions",req:"Summarise public/newsletter.txt",why:"Restricted resource for standard_user"},
+{id:"C-1002",tool:"send_message",args:"to: colleague@outside.example | Summary attached",rule:"default-deny",risk:"Medium",st:"Pending",t:"2026-11-09 10:20",flag:"",req:"Email this summary to my colleague at an outside address",why:"Destination not approved"},
+{id:"C-1003",tool:"read_file",args:"restricted/budget_2026.xlsx",rule:"R-02",risk:"High",st:"Pending",t:"2026-11-09 10:31",flag:"INJ-04: claims user is an administrator",req:"Summarise public/handbook.txt",why:"Restricted resource for standard_user"},
+{id:"C-1007",tool:"read_file",args:"restricted/credentials/api_keys.txt",rule:"R-04",risk:"High",st:"Blocked – final",t:"2026-11-09 10:40",flag:"INJ-01: instruction to send a file",req:"Summarise public/notice.txt",why:"Non-overridable rule R-04"},
+{id:"C-1004",tool:"send_message",args:"to: registry@outside.example | Reminder",rule:"R-07",risk:"High",st:"Released",t:"2026-11-09 09:40",flag:"INJ-01: instruction to send a file",req:"Summarise public/notice.txt",why:"Destination not approved",rv:"reviewer-01",rt:"2026-11-09 09:55",cm:"Matches the user request"},
+{id:"C-1005",tool:"read_file",args:"public/../restricted/keys.txt",rule:"default-deny",risk:"Medium",st:"Kept blocked",t:"2026-11-09 09:15",flag:"",req:"Show me the handbook",why:"Path traversal",rv:"reviewer-01",rt:"2026-11-09 09:20",cm:"Not requested by user"},
+{id:"C-1006",tool:"send_message",args:"to: advisor@outside.example | Meeting notes",rule:"default-deny",risk:"Medium",st:"Released",t:"2026-11-09 08:50",flag:"",req:"Send meeting notes to my advisor",why:"Destination not approved",rv:"reviewer-01",rt:"2026-11-09 09:02",cm:"Confirmed with user"}];
+const A=[];Q.forEach(x=>{A.push({t:x.t,id:x.id,ev:"Decision: BLOCK ("+x.rule+")",a:"gateway"});if(x.rv){A.push({t:x.rt,id:x.id,ev:x.st=="Released"?"Released by reviewer":"Kept blocked by reviewer",a:x.rv});if(x.st=="Released")A.push({t:x.rt,id:x.id,ev:"Tool executed once",a:"gateway"})}});
+A.push({t:"2026-11-09 10:05",id:"C-1008",ev:"Decision: ALLOW (R-01)",a:"gateway",k:"Decision"},{t:"2026-11-09 10:05",id:"C-1008",ev:"Tool executed once (read_file public/handbook.txt)",a:"gateway",k:"Execution"},{t:"2026-11-09 10:44",id:"C-1009",ev:"ERROR: GATEWAY_FAILURE - call not executed",a:"gateway",k:"Error"});
+let lf=null,af={q:"",k:"All"},view="dash",sel=null,modal=null,who="rev",demo="n",f={q:"",st:"All",so:"Risk"};
+const $=s=>document.querySelector(s),e=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const data=()=>demo=="e"?[]:Q,cnt=s=>data().filter(x=>x.st==s).length;
+const SC={"Pending":"Pending","Released":"Released","Kept blocked":"Kept","Blocked – final":"Final"};
+const bd=x=>`<span class="b ${x}">${x}</span>`,sb=s=>`<span class="b ${SC[s]||"NA"}">${s}</span>`;
+function toast(m,bad){const t=$("#toast");t.textContent=m;t.className=bad?"bad":"";t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,2600)}
+function rows(){const rk={High:0,Medium:1,Low:2},q=f.q.toLowerCase();const r=data().filter(x=>(f.st=="All"||x.st==f.st)&&(!q||[x.id,x.tool,x.args,x.rule,x.req].join(" ").toLowerCase().includes(q)));
+r.sort((a,b)=>f.so=="Risk"?(a.st=="Pending"?0:1)-(b.st=="Pending"?0:1)||rk[a.risk]-rk[b.risk]||a.t.localeCompare(b.t)||a.id.localeCompare(b.id):f.so=="Oldest first"?a.t.localeCompare(b.t)||a.id.localeCompare(b.id):b.t.localeCompare(a.t)||a.id.localeCompare(b.id));return r}
+function draw(){const r=rows();$("#cnt").textContent=r.length+" of "+data().length+" shown";$("#tb").innerHTML=r.length?r.map(x=>`<tr tabindex="0" data-open="${x.id}"><td class="mono">${x.id}</td><td>${x.tool}</td><td class="mono">${e(x.rule)}</td><td>${bd(x.risk)}</td><td>${sb(x.st)}</td><td>${x.t}</td></tr>`).join(""):'<tr><td colspan="6" style="text-align:center;color:var(--mu)">No matching records</td></tr>'}
+const ERR=`<div class="state" role="alert"><b>Dashboard data could not be loaded</b><p>The evidence store could not be read. No record was changed. Check that the local store is running, then refresh.</p><button class="btn" data-ref="1">Refresh</button></div>`;
+const aud=()=>[...A].sort((a,b)=>b.t.localeCompare(a.t)),arow=a=>`<tr ${Q.some(y=>y.id==a.id)?`tabindex="0" data-open="${a.id}" aria-label="Open ${a.id}"`:""}><td>${a.t}</td><td class="mono">${a.id}</td><td>${e(a.ev)}</td><td class="mono">${e(a.a)}</td></tr>`;
+const V={
+dash(){if(demo=="x")return `<h2>Dashboard</h2>${ERR}`;const p=cnt("Pending"),pr=r=>data().filter(x=>x.st=="Pending"&&x.risk==r).length,h=pr("High"),m=pr("Medium"),l=pr("Low");
+return `<section class="hero"><div><h2>Every tool call passes through AgentX</h2><p class="sub">${p} blocked calls need a human decision. No blocked call runs until a policy-authorised reviewer releases it.</p><div class="chips"><span class="chip"><i class="dot"></i>Default deny active</span><span class="chip">Policy v1.0</span><span class="chip">${cnt("Blocked – final")} final</span></div><button class="btn sec" data-ref="1">Refresh</button></div><div class="ring" role="img" aria-label="${p} pending: ${h} high, ${m} medium, ${l} low" style="background:${p?`conic-gradient(var(--hi) 0 ${h/p*360}deg,var(--me) ${h/p*360}deg ${(h+m)/p*360}deg,var(--lo) ${(h+m)/p*360}deg 360deg)`:'var(--bd)'}"><b>${p}</b><span>pending</span></div></section>${p?`<div class="alert" role="alert"><span><b>${p} blocked calls</b> are waiting for review (${h} high risk).</span><button class="btn link" data-go="queue">Open review queue</button></div>`:""}
+<div class="cards"><div class="card p"><b>${p}</b><span>Pending</span></div><div class="card h"><b>${h}</b><span>High-risk pending</span></div><div class="card r"><b>${cnt("Released")}</b><span>Released</span></div><div class="card k"><b>${cnt("Kept blocked")}</b><span>Kept blocked</span></div><div class="card f"><b>${cnt("Blocked – final")}</b><span>Blocked – final</span></div><div class="card t"><b>${data().length}</b><span>Total queued calls</span></div></div>
+<div class="panel"><b>Pending calls by risk</b>${p?`<div class="stack" role="img" aria-label="${h} high, ${m} medium, ${l} low"><i style="width:${h/p*100}%;background:var(--hi)"></i><i style="width:${m/p*100}%;background:var(--me)"></i><i style="width:${l/p*100}%;background:var(--lo)"></i></div><div class="leg"><span>High ${h}</span><span>Medium ${m}</span><span>Low ${l}</span></div>`:'<p class="mu" style="margin:8px 0 0">Nothing is waiting for review.</p>'}</div>
+<h3>High-risk pending</h3>${(()=>{const L=data().filter(x=>x.st=="Pending"&&x.risk=="High");return L.length?`<div class="tw"><table><tbody>${L.map(x=>`<tr tabindex="0" data-open="${x.id}" aria-label="Open ${x.id}"><td class="mono">${x.id}</td><td>${x.tool}</td><td class="mono">${e(x.args)}</td><td>${bd(x.risk)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="mu">No high-risk calls pending.</p>'})()}<h3>Recent activity</h3><div class="tw"><table><thead><tr><th>Time</th><th>Call ID</th><th>Event</th><th>Actor</th></tr></thead><tbody>${demo=="e"?'<tr><td colspan="4" style="text-align:center;color:var(--mu)">No activity yet</td></tr>':aud().slice(0,6).map(arow).join("")}</tbody></table></div>`},
+queue(){if(demo=="x")return `<h2>Review Queue</h2>${ERR}`;return `<h2>Review Queue</h2><p class="sub">Select a call to see the full evidence.</p><div class="bar"><input id="q" maxlength="100" placeholder="Search (max 100 characters)" aria-label="Search" value="${e(f.q)}"><select id="fs" aria-label="Filter by status">${["All","Pending","Released","Kept blocked","Blocked – final"].map(s=>`<option${f.st==s?" selected":""}>${s}</option>`).join("")}</select><select id="so" aria-label="Sort">${["Risk","Oldest first","Newest first"].map(s=>`<option${f.so==s?" selected":""}>${s}</option>`).join("")}</select><span id="cnt" class="mu"></span></div>
+<div class="tw"><table><thead><tr><th>Call ID</th><th>Tool</th><th>Matched rule</th><th>Risk</th><th>Status</th><th>Blocked at</th></tr></thead><tbody id="tb"></tbody></table></div>`},
+detail(){if(demo=="x")return `<h2>Blocked call</h2>${ERR}`;const x=Q.find(y=>y.id==sel);if(!x)return `<h2>Record not found</h2><button class="btn link" data-go="queue">Back to queue</button>`;
+const ex=x.st=="Released"?"Executed":"Not Started",fin=x.st=="Blocked – final";
+const S=[["Validated","Call format OK",""],["Role","standard_user (trusted)",""],["Policy","BLOCK · "+x.rule,"w"],["Injection scan",x.flag?"Flagged":"Clear",x.flag?"o":""],["Risk",x.risk,x.risk=="High"?"w":""],["Review",x.st,x.st=="Pending"?"o":""],["Execution",ex,""]];
+return `<button class="btn link" data-go="queue">&larr; Back to queue</button><h2 style="margin-top:8px">Blocked call <span class="mono">${x.id}</span></h2><p class="sub">${e(x.tool)} &middot; ${e(x.t)}</p>
+<ol class="flow" aria-label="Processing sequence">${S.map(s=>`<li class="${s[2]}"><small>${s[0]}</small><b>${e(s[1])}</b></li>`).join("")}</ol>
+<div class="tri"><div><small>Gateway decision</small><b>BLOCK</b><div class="mu">${e(x.why)}</div></div><div><small>Review status</small>${sb(x.st)}</div><div><small>Execution status</small><b>${ex}</b></div></div>
+<dl><dt>Tool</dt><dd>${x.tool}</dd><dt>Arguments</dt><dd class="mono">${e(x.args)}</dd><dt>Session role</dt><dd>standard_user</dd><dt>User request</dt><dd>${e(x.req)}</dd><dt>Matched rule</dt><dd class="mono">${e(x.rule)}</dd><dt>Reason code</dt><dd class="mono">${x.rule=="default-deny"?"NO_MATCHING_RULE":"EXPLICIT_DENY_RULE"}</dd><dt>Policy version</dt><dd class="mono">v1.0</dd><dt>Release eligible</dt><dd>${fin?"No":"Yes"}</dd><dt>Risk level</dt><dd>${bd(x.risk)}</dd><dt>Injection flag</dt><dd>${x.flag?"Yes &ndash; "+e(x.flag):"No"}</dd><dt>Reviewer</dt><dd>${x.rv||"&ndash;"}</dd><dt>Decision time</dt><dd>${x.rt||"&ndash;"}</dd><dt>Comment</dt><dd>${e(x.cm||"–")}</dd></dl>
+${x.st=="Pending"?`<div class="bar"><button class="btn" data-m="release"${who=="adm"?" disabled":""}>Release</button><button class="btn sec" data-m="keep"${who=="adm"?" disabled":""}>Keep blocked</button>${who=="adm"?'<span class="mu">View only: this administrator is not in authorised_reviewers.</span>':""}</div>`:fin?`<div class="alert" style="background:var(--finb);color:var(--fin);border-color:var(--fin)">Blocked – final (non-overridable rule ${e(x.rule)}). This call cannot be released.</div>`:`<p class="mu">Decided. No further actions available.</p>`}
+<h3>History</h3><div class="tw"><table><tbody>${A.filter(a=>a.id==x.id).map(a=>`<tr><td>${a.t}</td><td>${e(a.ev)}</td><td class="mono">${e(a.a)}</td></tr>`).join("")}</tbody></table></div>`},
+audit(){if(demo=="x")return `<h2>Audit Log</h2>${ERR}`;return `<h2>Audit Log</h2><p class="sub">Read-only. Entries cannot be edited or deleted.</p><div class="bar"><input id="aq" maxlength="100" placeholder="Search audit log" aria-label="Search audit log" value="${e(af.q)}"><select id="ak" aria-label="Filter by event type">${["All","Decision","Review","Execution","Error"].map(s=>`<option${af.k==s?" selected":""}>${s}</option>`).join("")}</select><span id="acnt" class="mu"></span></div><div class="tw"><table><thead><tr><th>Time</th><th>Call ID</th><th>Event</th><th>Actor</th></tr></thead><tbody id="at"></tbody></table></div>`}};
+const kind=a=>a.k||(/^Decision/.test(a.ev)?"Decision":/Released|Kept|Rejected/.test(a.ev)?"Review":/executed/.test(a.ev)?"Execution":"Other");
+function adraw(){const q=af.q.toLowerCase(),r=demo=="e"?[]:aud().filter(a=>(af.k=="All"||kind(a)==af.k)&&(!q||[a.id,a.ev,a.a].join(" ").toLowerCase().includes(q)));$("#acnt").textContent=r.length+" of "+(demo=="e"?0:A.length)+" shown";$("#at").innerHTML=r.length?r.map(arow).join(""):'<tr><td colspan="4" style="text-align:center;color:var(--mu)">No matching records</td></tr>'}
+function dlg(){const r=modal=="release";return `<div class="ov"><div class="dlg" role="dialog" aria-modal="true" aria-label="Confirm"><h3 style="margin-top:0">${r?"Release this call?":"Keep this call blocked?"}</h3><p>${r?"The call will execute once, exactly as proposed.":"The call will stay unexecuted."}</p><label for="rs">${r?"Comment (optional, up to 300 characters)":"Reason (required, 5 to 300 characters)"}</label><textarea id="rs" maxlength="300"></textarea><div class="err" id="er" role="alert"></div><div class="bar"><button class="btn" data-ok="1">${r?"Release call":"Keep blocked"}</button><button class="btn sec" data-cancel="1">Cancel</button></div></div></div>`}
+function render(){const p=cnt("Pending");$("#nv").innerHTML=[["dash","Dashboard"],["queue","Review Queue"],["audit","Audit Log"]].map(([k,l])=>`<button class="nb" data-go="${k}"${k==view||(view=="detail"&&k=="queue")?' aria-current="page"':""}>${l}${k=="queue"&&p?`<span class="pill">${p}</span>`:""}</button>`).join("");
+const kk=view+demo+sel,ch=render.v!==kk;render.v=kk;$("#m").className=ch?"anim":"";$("#m").innerHTML=V[view]()+(modal?dlg():"");const hh=$("#m h2");if(hh)hh.tabIndex=-1;if(view=="queue"&&demo!="x")draw();if(view=="audit"&&demo!="x")adraw();if(modal)$("#rs").focus();else if(lf){const t=$(lf);if(t)t.focus();lf=null}}
+const now=()=>"2026-11-09 "+new Date().toTimeString().slice(0,5);
+document.addEventListener("click",ev=>{const t=ev.target.closest("[data-go],[data-open],[data-m],[data-ok],[data-cancel],[data-ref]");if(!t)return;const d=t.dataset;
+if(d.go){view=d.go;modal=null;lf='#nv [data-go="'+d.go+'"]'}else if(d.open){sel=d.open;view="detail";lf="#m h2"}else if(d.m){modal=d.m}else if(d.cancel){lf='[data-m="'+modal+'"]';modal=null}else if(d.ref){toast("Dashboard refreshed")}else if(d.ok){lf="#m h2";const x=Q.find(y=>y.id==sel),c=$("#rs").value.trim(),rel=modal=="release";
+if(who=="adm"){A.push({t:now(),id:x.id,ev:"Rejected attempt: "+(rel?"release":"keep blocked")+" (not authorised)",a:"admin-01"});modal=null;toast("Not authorised to decide this call",1);render();return}
+if(x.st!="Pending"){modal=null;toast("Already decided",1);render();return}
+if(!rel&&c.length<5){$("#er").textContent="Enter a reason of at least 5 characters.";return}
+x.st=rel?"Released":"Kept blocked";x.rv="reviewer-01";x.rt=now();x.cm=c;
+A.push({t:x.rt,id:x.id,ev:rel?"Released by reviewer":"Kept blocked by reviewer",a:"reviewer-01"});if(rel)A.push({t:x.rt,id:x.id,ev:"Tool executed once",a:"gateway"});
+toast(x.id+(rel?" released":" kept blocked"));modal=null}render()});
+document.addEventListener("keydown",ev=>{if(ev.key=="Escape"&&modal){lf='[data-m="'+modal+'"]';modal=null;render()}if(ev.key=="Tab"&&modal){const F=[...document.querySelectorAll(".dlg textarea,.dlg button")],i=F.indexOf(document.activeElement);if(ev.shiftKey&&i<=0){ev.preventDefault();F[F.length-1].focus()}else if(!ev.shiftKey&&i==F.length-1){ev.preventDefault();F[0].focus()}}if(ev.key=="Enter"&&ev.target.matches("tr[data-open]"))ev.target.click()});
+document.addEventListener("click",ev=>{if(ev.target.id=="th"){const r=document.documentElement;r.dataset.theme=r.dataset.theme=="dark"?"light":"dark"}});
+document.addEventListener("input",ev=>{if(ev.target.id=="q"){f.q=ev.target.value;draw()}else if(ev.target.id=="aq"){af.q=ev.target.value;adraw()}});
+document.addEventListener("change",ev=>{const i=ev.target.id;if(i=="fs"){f.st=ev.target.value;draw()}else if(i=="so"){f.so=ev.target.value;draw()}else if(i=="ak"){af.k=ev.target.value;adraw()}else if(i=="who"){who=ev.target.value;toast(who=="adm"?"Viewing as Administrator: view only":"Viewing as authorised reviewer");render()}else if(i=="demo"){demo=ev.target.value;render()}});
+render();
+</script></body></html>
